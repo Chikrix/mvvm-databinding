@@ -1,12 +1,15 @@
 package com.tutor.proteins.placetalk
 
+import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.tutor.proteins.placetalk.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity() {
+  private lateinit var homeActivityBinding: ActivityHomeBinding
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_home)
+    homeActivityBinding = DataBindingUtil.setContentView(this, R.layout.activity_home)
   }
 }
