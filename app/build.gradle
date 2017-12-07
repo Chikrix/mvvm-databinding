@@ -43,4 +43,9 @@ dependencies {
   androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
   kapt 'com.android.databinding:compiler:3.0.1'
+
+  //-- Arch components https://developer.android.com/topic/libraries/architecture/adding-components.html --//
+  implementation "android.arch.lifecycle:extensions:1.0.0" // For LiveData and ViewModel
+  implementation "android.arch.lifecycle:reactivestreams:1.0.0" // For LiveData with Reactive streams
+  kapt "android.arch.lifecycle:compiler:1.0.0"
 }
