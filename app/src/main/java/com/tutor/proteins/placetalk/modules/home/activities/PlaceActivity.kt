@@ -6,22 +6,22 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import com.tutor.proteins.placetalk.R
 import com.tutor.proteins.placetalk.R.layout
-import com.tutor.proteins.placetalk.databinding.WeatherActivityBinding
-import com.tutor.proteins.placetalk.modules.home.fragments.WeatherFragment
+import com.tutor.proteins.placetalk.databinding.PlaceActivityBinding
+import com.tutor.proteins.placetalk.modules.home.fragments.PlaceListFragment
 
-class WeatherActivity: AppCompatActivity() {
-  private lateinit var homeActivityBinding: WeatherActivityBinding
+class PlaceActivity: AppCompatActivity() {
+  private lateinit var placeActivityBinding: PlaceActivityBinding
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    homeActivityBinding = DataBindingUtil.setContentView(this,
-        layout.weather_activity)
+    placeActivityBinding = DataBindingUtil.setContentView(this,
+        layout.place_activity)
     navigateToFragment()
   }
 
   private fun navigateToFragment() {
     val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-    fragmentTransaction.replace(R.id.weatherActivityContainer, WeatherFragment.newInstance())
+    fragmentTransaction.replace(R.id.placeActivityContainer, PlaceListFragment.newInstance())
     fragmentTransaction.commit()
   }
 }

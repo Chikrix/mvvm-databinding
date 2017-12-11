@@ -8,6 +8,7 @@ class RetrofitAdapter private constructor() {
   private val retrofit: Retrofit
 
   init {
+
     retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())

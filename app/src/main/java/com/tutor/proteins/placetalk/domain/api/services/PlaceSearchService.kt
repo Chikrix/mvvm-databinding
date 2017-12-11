@@ -1,15 +1,15 @@
 package com.tutor.proteins.placetalk.domain.api.services
 
-import com.tutor.proteins.placetalk.domain.model.LocationsList
-import com.tutor.proteins.placetalk.util.RetrofitLiveData
+import com.tutor.proteins.placetalk.domain.model.PlacesList
+import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 
 interface PlaceSearchService {
 
-  @GET("searchJSON")
+  @GET("wikipediaSearchJSON")
   fun search(
       @Query("q") query: String,
-      @Query("username") username: String = "crisp"): RetrofitLiveData<LocationsList>
+      @Query("username") username: String = "crisp"): Call<PlacesList>
 }
