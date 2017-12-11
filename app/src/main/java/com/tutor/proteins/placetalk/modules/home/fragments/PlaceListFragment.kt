@@ -54,7 +54,6 @@ class PlaceListFragment : Fragment(), PlaceListFragmentViewModel.ViewActions {
 
       override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
         if (s.isNotEmpty()) weatherFragmentViewModel.setSearchState(false)
-        else weatherFragmentViewModel.setSearchState(true)
       }
     })
   }
@@ -68,14 +67,6 @@ class PlaceListFragment : Fragment(), PlaceListFragmentViewModel.ViewActions {
 
   override fun onPlaceItemSelected(geoname: Geoname?) {
     Toast.makeText(context, getString(string.no_action_text), Toast.LENGTH_SHORT).show()
-    /*geoname ?: return
-    val bundle = Bundle()
-    bundle.apply {
-      bundle.putSerializable(Constants.PLACE_ITEM, geoname)
-    }
-
-    (context as PlaceActivity).openWeatherInfoFragment()
-    */
   }
 
   override fun handleErrors(exc: Exception) {
@@ -84,12 +75,6 @@ class PlaceListFragment : Fragment(), PlaceListFragmentViewModel.ViewActions {
       is IllegalArgumentException -> Toast.makeText(context, getString(string.nothing_found),
           Toast.LENGTH_SHORT).show()
     }
-  }
-
-  override fun onResume() {
-    super.onResume()
-
-    Toast.makeText(context, "Count is ${weatherFragmentViewModel.count}", Toast.LENGTH_SHORT).show()
   }
 
   @SuppressWarnings(UNUSED)
@@ -105,7 +90,6 @@ class PlaceListFragment : Fragment(), PlaceListFragmentViewModel.ViewActions {
               val geonames = locationList?.geonames
               val locations = requireNotNull(geonames)
               check(locations.isNotEmpty())
-              weatherFragmentViewModel.count = locations.size
               adapter.updateData(locations)
             } catch (err: Exception) {
               handleErrors(err)

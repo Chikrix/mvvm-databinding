@@ -47,7 +47,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:clickable="@{!viewModel.shouldSetButtonNotClickable}"
         android:onClick="@{handler.onSearchForPlace}"
         android:text="@string/search"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
