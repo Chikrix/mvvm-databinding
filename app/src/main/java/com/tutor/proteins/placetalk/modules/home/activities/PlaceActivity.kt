@@ -24,4 +24,5 @@ class PlaceActivity: AppCompatActivity() {
     fragmentTransaction.replace(R.id.placeActivityContainer, PlaceListFragment.newInstance())
     fragmentTransaction.commit()
   }
+  
 }

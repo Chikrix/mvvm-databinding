@@ -1,8 +1,9 @@
 package com.tutor.proteins.placetalk.domain.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
-class Geoname {
+class Geoname: Serializable {
 
   @SerializedName("countryCode")
   var countryCode: String? = null

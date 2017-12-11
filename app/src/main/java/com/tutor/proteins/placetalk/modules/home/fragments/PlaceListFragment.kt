@@ -12,15 +12,16 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.tutor.proteins.placetalk.R
 import com.tutor.proteins.placetalk.databinding.PlaceItemBinding
 import com.tutor.proteins.placetalk.databinding.PlaceListFragmentBinding
 import com.tutor.proteins.placetalk.domain.model.Geoname
-import com.tutor.proteins.placetalk.modules.home.viewmodels.WeatherFragmentViewModel
+import com.tutor.proteins.placetalk.modules.home.viewmodels.PlaceListFragmentViewModel
 
 
-class PlaceListFragment: Fragment() {
-  private lateinit var weatherFragmentViewModel: WeatherFragmentViewModel
+class PlaceListFragment: Fragment(), PlaceListFragmentViewModel.ViewActions {
+  private lateinit var weatherFragmentViewModel: PlaceListFragmentViewModel
   private lateinit var weatherFragmentBinding: PlaceListFragmentBinding
   private lateinit var adapter: PlacesListFragmentAdapter
 
@@ -37,7 +38,7 @@ class PlaceListFragment: Fragment() {
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
-    weatherFragmentViewModel = ViewModelProviders.of(this).get(WeatherFragmentViewModel::class.java)
+    weatherFragmentViewModel = ViewModelProviders.of(this).get(PlaceListFragmentViewModel::class.java)
     weatherFragmentBinding.viewModel = weatherFragmentViewModel
     weatherFragmentBinding.handler = Handler()
     setListeners()
@@ -58,6 +59,18 @@ class PlaceListFragment: Fragment() {
     })
   }
 
+  override fun onPlaceItemSelected(geoname: Geoname?) {
+    Toast.makeText(context, "Items selected", Toast.LENGTH_SHORT).show()
+    /*geoname ?: return
+    val bundle = Bundle()
+    bundle.apply {
+      bundle.putSerializable(Constants.PLACE_ITEM, geoname)
+    }
+
+    (context as PlaceActivity).openWeatherInfoFragment()
+    */
+  }
+
   @SuppressWarnings("unused")
   inner class Handler {
 
@@ -71,7 +84,7 @@ class PlaceListFragment: Fragment() {
 
   }
 
-  inner class PlacesListFragmentAdapter:
+  private inner class PlacesListFragmentAdapter:
       RecyclerView.Adapter<PlacesListFragmentAdapter.PlaceViewHolder>() {
 
     private var placesList: List<Geoname> = listOf()
@@ -95,11 +108,19 @@ class PlaceListFragment: Fragment() {
     }
 
     inner class PlaceViewHolder(private val placeItemBinding: PlaceItemBinding):
-        RecyclerView.ViewHolder(placeItemBinding.root) {
+        RecyclerView.ViewHolder(placeItemBinding.root), View.OnClickListener {
+
+      init {
+        placeItemBinding.placeItemCv.setOnClickListener(this)
+      }
 
       fun setPlaceInfo(geoname: Geoname) {
         placeItemBinding.placeInfo = geoname
         placeItemBinding.executePendingBindings()
+      }
+
+      override fun onClick(v: View) {
+        onPlaceItemSelected(placeItemBinding.placeInfo)
       }
     }
   }

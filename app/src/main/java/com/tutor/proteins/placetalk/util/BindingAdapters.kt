@@ -6,6 +6,10 @@ import com.tutor.proteins.placetalk.domain.model.Geoname
 
 @BindingAdapter("app:place")
 fun setPlaceName(view: TextView, place: Geoname) {
-  val name = "${place.title}, ${place.countryCode}"
-  view.text = name
+  if (place.countryCode.isNullOrBlank()) view.text = place.title
+  else {
+    val title = "${place.title}, ${place.countryCode}"
+    view.text = title
+  }
+
 }
