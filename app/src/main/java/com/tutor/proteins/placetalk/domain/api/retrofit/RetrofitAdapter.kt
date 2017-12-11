@@ -21,11 +21,11 @@ class RetrofitAdapter private constructor() {
 
   companion object RetrofitInstance {
 
-    val INSTANCE: RetrofitAdapter by lazy {
+    val INSTANCE by lazy {
       RetrofitAdapter()
     }
 
-    const val BASE_URL = "http://api.geonames.org/"
+    private const val BASE_URL = "http://api.geonames.org/"
   }
 
 }

@@ -3,4 +3,6 @@
   <string name="place_talk">Place Talk</string>
   <string name="location_to_check">Location to check</string>
   <string name="search">Search</string>
+  <string name="no_action_text">Item selected</string>
+  <string name="nothing_found">Nothing found</string>
 </resources>

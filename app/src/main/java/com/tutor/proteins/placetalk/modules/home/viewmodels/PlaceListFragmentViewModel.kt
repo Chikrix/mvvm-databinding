@@ -11,9 +11,12 @@ import com.tutor.proteins.placetalk.domain.repositories.OnlineRepository
 
 class PlaceListFragmentViewModel(context: Application = Application()): AndroidViewModel(context) {
 
-  private var onlineRepository: OnlineRepository = OnlineRepository.INSTANCE
-  val shouldShowEmptyScreenState: ObservableField<Boolean> = ObservableField(true)
-  val shouldSetButtonNotClickable: ObservableField<Boolean> = ObservableField(true)
+  private var onlineRepository = OnlineRepository.INSTANCE
+  val shouldShowEmptyScreenState = ObservableField(true)
+  val shouldSetButtonNotClickable = ObservableField(true)
+  val shouldHideProgressBar = ObservableField(true)
+  val emptyStateMessage = ObservableField("Nothing yet")
+  var count = 7
 
   fun setSearchState(state: Boolean) {
     shouldShowEmptyScreenState.set(state)
@@ -30,12 +33,14 @@ class PlaceListFragmentViewModel(context: Application = Application()): AndroidV
 
   override fun onCleared() {
     // Clear up resources which could cause a leak
-
   }
 
   interface ViewActions {
 
     fun onPlaceItemSelected(geoname: Geoname?)
+
+    // Could be used to handle different error cases from livedata
+    fun handleErrors(exc: Exception)
   }
 
 }

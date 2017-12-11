@@ -11,17 +11,17 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class OnlineRepository private constructor() {
-  private val retrofitAdapter: RetrofitAdapter = RetrofitAdapter.INSTANCE
-  private val weatherService: WeatherService by lazy {
+  private val retrofitAdapter = RetrofitAdapter.INSTANCE
+  private val weatherService by lazy {
     retrofitAdapter.createService(WeatherService::class.java) as WeatherService
   }
-  private val placeService: PlaceSearchService by lazy {
+  private val placeService by lazy {
     retrofitAdapter.createService(PlaceSearchService::class.java) as PlaceSearchService
   }
 
   fun fetchWeatherReport(lat: String, lng: String): MutableLiveData<WeatherResult> {
-    val weatherResult: MutableLiveData<WeatherResult> = MutableLiveData()
-    weatherService.fetchWeather(lat, lng).enqueue(object: Callback<WeatherResult>{
+    val weatherResult = MutableLiveData<WeatherResult>()
+    weatherService.fetchWeather(lat, lng).enqueue(object : Callback<WeatherResult> {
       override fun onResponse(call: Call<WeatherResult>?, response: Response<WeatherResult>) {
         weatherResult.value = response.body()
       }
@@ -30,26 +30,29 @@ class OnlineRepository private constructor() {
         weatherResult.value = null
       }
     })
+
     return weatherResult
   }
 
   fun fetchPlaceInfo(placeName: String): MutableLiveData<PlacesList> {
-    val placeResult: MutableLiveData<PlacesList> = MutableLiveData()
-    placeService.search(placeName).enqueue(object: Callback<PlacesList>{
+    val placeResult = MutableLiveData<PlacesList>()
+    placeService.search(placeName).enqueue(object : Callback<PlacesList> {
       override fun onResponse(call: Call<PlacesList>?, response: Response<PlacesList>) {
         placeResult.value = response.body()
       }
 
       override fun onFailure(call: Call<PlacesList>?, t: Throwable?) {
+        // TODO Handle error cases. Like wrap a custom object that holds the data and a throwable around a LiveData
         placeResult.value = null
       }
 
     })
+
     return placeResult
   }
 
   companion object OnlineRepoInstance {
-    val INSTANCE: OnlineRepository by lazy {
+    val INSTANCE by lazy {
       OnlineRepository()
     }
   }

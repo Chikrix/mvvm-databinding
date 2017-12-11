@@ -9,7 +9,7 @@ import com.tutor.proteins.placetalk.R.layout
 import com.tutor.proteins.placetalk.databinding.PlaceActivityBinding
 import com.tutor.proteins.placetalk.modules.home.fragments.PlaceListFragment
 
-class PlaceActivity: AppCompatActivity() {
+class PlaceActivity : AppCompatActivity() {
   private lateinit var placeActivityBinding: PlaceActivityBinding
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,5 +24,5 @@ class PlaceActivity: AppCompatActivity() {
     fragmentTransaction.replace(R.id.placeActivityContainer, PlaceListFragment.newInstance())
     fragmentTransaction.commit()
   }
-  
+
 }
