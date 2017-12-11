@@ -81,8 +81,8 @@ class PlaceListFragment : Fragment(), PlaceListFragmentViewModel.ViewActions {
   override fun handleErrors(exc: Exception) {
     when (exc) {
       is IllegalStateException,
-      is IllegalArgumentException -> weatherFragmentViewModel.emptyStateMessage.set(
-          getString(string.nothing_found))
+      is IllegalArgumentException -> Toast.makeText(context, getString(string.nothing_found),
+          Toast.LENGTH_SHORT).show()
     }
   }
 

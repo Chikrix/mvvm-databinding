@@ -15,7 +15,6 @@ class PlaceListFragmentViewModel(context: Application = Application()): AndroidV
   val shouldShowEmptyScreenState = ObservableField(true)
   val shouldSetButtonNotClickable = ObservableField(true)
   val shouldHideProgressBar = ObservableField(true)
-  val emptyStateMessage = ObservableField("Nothing yet")
   var count = 7
 
   fun setSearchState(state: Boolean) {
