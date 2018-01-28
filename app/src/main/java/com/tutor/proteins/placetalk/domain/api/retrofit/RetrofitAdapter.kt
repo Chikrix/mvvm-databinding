@@ -6,6 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitAdapter private constructor() {
   private val retrofit: Retrofit
+  private val BASE_URL = "http://api.geonames.org/"
 
   init {
 
@@ -19,13 +20,11 @@ class RetrofitAdapter private constructor() {
     return retrofit.create(clazz)
   }
 
-  companion object RetrofitInstance {
+  object RetrofitInstance {
 
     val INSTANCE by lazy {
       RetrofitAdapter()
     }
-
-    private const val BASE_URL = "http://api.geonames.org/"
   }
 
 }

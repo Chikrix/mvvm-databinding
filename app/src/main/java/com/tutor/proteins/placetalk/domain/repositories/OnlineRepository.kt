@@ -11,7 +11,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class OnlineRepository private constructor() {
-  private val retrofitAdapter = RetrofitAdapter.INSTANCE
+  private val retrofitAdapter = RetrofitAdapter.RetrofitInstance.INSTANCE
   private val weatherService by lazy {
     retrofitAdapter.createService(WeatherService::class.java) as WeatherService
   }
@@ -51,7 +51,7 @@ class OnlineRepository private constructor() {
     return placeResult
   }
 
-  companion object OnlineRepoInstance {
+  object OnlineRepoInstance {
     val INSTANCE by lazy {
       OnlineRepository()
     }

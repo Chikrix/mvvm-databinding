@@ -9,9 +9,10 @@ import com.tutor.proteins.placetalk.domain.model.PlacesList
 import com.tutor.proteins.placetalk.domain.model.WeatherResult
 import com.tutor.proteins.placetalk.domain.repositories.OnlineRepository
 
+
 class PlaceListFragmentViewModel: ViewModel() {
 
-  private var onlineRepository = OnlineRepository.INSTANCE
+  private var onlineRepository = OnlineRepository.OnlineRepoInstance.INSTANCE
   val shouldShowEmptyScreenState = ObservableField(true)
   val shouldHideProgressBar = ObservableField(true)
   var locationsList = MutableLiveData<PlacesList>()
