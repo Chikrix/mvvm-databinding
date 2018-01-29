@@ -7,8 +7,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,60 +18,61 @@ import com.tutor.proteins.placetalk.databinding.PlaceItemBinding
 import com.tutor.proteins.placetalk.databinding.PlaceListFragmentBinding
 import com.tutor.proteins.placetalk.domain.model.Geoname
 import com.tutor.proteins.placetalk.modules.home.viewmodels.PlaceListFragmentViewModel
+import com.tutor.proteins.placetalk.util.setTextChangeAction
+import com.tutor.proteins.placetalk.util.showToast
 
 
 class PlaceListFragment : Fragment(), PlaceListFragmentViewModel.ViewActions {
-  private lateinit var weatherFragmentViewModel: PlaceListFragmentViewModel
-  private lateinit var weatherFragmentBinding: PlaceListFragmentBinding
+  private lateinit var placeListFragmentViewModel: PlaceListFragmentViewModel
+  private lateinit var placeListFragmentBinding: PlaceListFragmentBinding
   private lateinit var adapter: PlacesListFragmentAdapter
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
       savedInstanceState: Bundle?): View? {
-    weatherFragmentBinding =
+    placeListFragmentBinding =
         DataBindingUtil.inflate(inflater, R.layout.place_list_fragment, container, false)
     setupListView()
-    return weatherFragmentBinding.root
+    return placeListFragmentBinding.root
   }
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
-    weatherFragmentViewModel = ViewModelProviders.of(this).get(
+    placeListFragmentViewModel = ViewModelProviders.of(this).get(
         PlaceListFragmentViewModel::class.java)
-    weatherFragmentBinding.viewModel = weatherFragmentViewModel
-    weatherFragmentBinding.handler = Handler()
-    setListeners()
+
+    with(placeListFragmentBinding) {
+      viewModel = placeListFragmentViewModel
+      handler = Handler()
+      setListeners(this)
+    }
   }
 
-  private fun setListeners() {
-    weatherFragmentBinding.placeListFragmentEtSearch.addTextChangedListener(object : TextWatcher {
-      override fun afterTextChanged(s: Editable?) {
-      }
+  private fun setListeners(binding: PlaceListFragmentBinding) {
+    binding.placeListFragmentEtSearch.setTextChangeAction { setSearchState(it) }
+  }
 
-      override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-      }
-
-      override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-        if (s.isNotEmpty()) weatherFragmentViewModel.setSearchState(false)
-      }
-    })
+  private fun setSearchState(textEntry: CharSequence) {
+    if (textEntry.isNotEmpty()) placeListFragmentViewModel.setSearchState(false)
   }
 
   private fun setupListView() {
-    weatherFragmentBinding.placeListFragmentRv.layoutManager = LinearLayoutManager(context)
-    adapter = PlacesListFragmentAdapter()
-    weatherFragmentBinding.placeListFragmentRv.adapter = adapter
-    weatherFragmentBinding.placeListFragmentRv.setHasFixedSize(true)
+    with(placeListFragmentBinding) {
+      placeListFragmentRv.layoutManager = LinearLayoutManager(context)
+      adapter = PlacesListFragmentAdapter()
+      placeListFragmentRv.adapter = adapter
+      placeListFragmentRv.setHasFixedSize(true)
+    }
   }
 
   override fun onPlaceItemSelected(geoname: Geoname?) {
-    Toast.makeText(context, getString(string.no_action_text), Toast.LENGTH_SHORT).show()
+    context.showToast(string.no_action_text)
   }
 
   override fun handleErrors(exc: Exception) {
     when (exc) {
       is IllegalStateException,
-      is IllegalArgumentException -> Toast.makeText(context, getString(string.nothing_found),
-          Toast.LENGTH_SHORT).show()
+      is IllegalArgumentException -> context.showToast(string.nothing_found)
+
     }
   }
 
@@ -81,12 +80,12 @@ class PlaceListFragment : Fragment(), PlaceListFragmentViewModel.ViewActions {
   inner class Handler {
 
     fun onSearchForPlace(view: View) {
-      weatherFragmentViewModel.shouldHideProgressBar.set(false)
-      val placeQuery = weatherFragmentBinding.placeListFragmentEtSearch.text.toString()
-      weatherFragmentViewModel.getPlaceInformation(placeQuery).observe(this@PlaceListFragment,
+      placeListFragmentViewModel.shouldHideProgressBar.set(false)
+      val placeQuery = placeListFragmentBinding.placeListFragmentEtSearch.text.toString()
+      placeListFragmentViewModel.getPlaceInformation(placeQuery).observe(this@PlaceListFragment,
           Observer { locationList ->
             try {
-              weatherFragmentViewModel.shouldHideProgressBar.set(true)
+              placeListFragmentViewModel.shouldHideProgressBar.set(true)
               val geonames = locationList?.geonames
               val locations = requireNotNull(geonames)
               check(locations.isNotEmpty())
@@ -129,8 +128,10 @@ class PlaceListFragment : Fragment(), PlaceListFragmentViewModel.ViewActions {
       }
 
       fun setPlaceInfo(geoname: Geoname) {
-        placeItemBinding.placeInfo = geoname
-        placeItemBinding.executePendingBindings()
+        with(placeItemBinding) {
+          placeInfo = geoname
+          executePendingBindings()
+        }
       }
 
       override fun onClick(v: View) {

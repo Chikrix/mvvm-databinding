@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableField
 import com.tutor.proteins.placetalk.domain.model.Geoname
 import com.tutor.proteins.placetalk.domain.model.PlacesList
-import com.tutor.proteins.placetalk.domain.model.WeatherResult
 import com.tutor.proteins.placetalk.domain.repositories.OnlineRepository
 
 
@@ -19,10 +18,6 @@ class PlaceListFragmentViewModel: ViewModel() {
 
   fun setSearchState(state: Boolean) {
     shouldShowEmptyScreenState.set(state)
-  }
-
-  fun getWeatherInformation(lat: String, lon: String): LiveData<WeatherResult> {
-     return onlineRepository.fetchWeatherReport(lat, lon)
   }
 
   fun getPlaceInformation(place: String): LiveData<PlacesList> {
@@ -38,7 +33,6 @@ class PlaceListFragmentViewModel: ViewModel() {
 
     fun onPlaceItemSelected(geoname: Geoname?)
 
-    // Could be used to handle different error cases from livedata
     fun handleErrors(exc: Exception)
   }
 
